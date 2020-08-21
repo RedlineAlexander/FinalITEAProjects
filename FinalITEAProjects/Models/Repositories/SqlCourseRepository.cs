@@ -17,27 +17,51 @@ namespace FinalITEAProjects.Models.Repositories
 
         public void CreateCourse(Course course)
         {
-            throw new NotImplementedException();
+            _context.Courses.Add(course);
+            _context.SaveChanges();
+            //throw new NotImplementedException();
         }
 
         public void DeleteCourse(int courseId)
         {
-            throw new NotImplementedException();
+            var DeleteCourse = _context.Courses.SingleOrDefault(x => x.CourseID == courseId);
+            try
+            {
+                _context.Courses.Remove(DeleteCourse);
+            }
+            catch
+            {
+                throw new ArgumentNullException($"There is no course {courseId}");
+            }
+            finally
+            {
+                _context.SaveChanges();
+            }
+            //throw new NotImplementedException();
         }
 
         public IEnumerable<Course> GetAllCourses()
         {
-            throw new NotImplementedException();
+           return _context.Courses;
+            //throw new NotImplementedException();
         }
 
         public Course GetCourse(int courseId)
         {
-            throw new NotImplementedException();
+            return _context.Courses.SingleOrDefault(x => x.CourseID == courseId);
+            //throw new NotImplementedException();
         }
 
         public void ModifyCourse(int courseId, Course course)
         {
-            throw new NotImplementedException();
+            var CourseUpdate = _context.Courses.SingleOrDefault(x => x.CourseID == courseId);
+            if (CourseUpdate == null)
+                return;
+            // throw new NotImplementedException();
+            CourseUpdate.Title = course.Title;
+            CourseUpdate.Credits = course.Credits;
+            CourseUpdate.Enrollments = course.Enrollments;
+            _context.SaveChanges();
         }
     }
 }
